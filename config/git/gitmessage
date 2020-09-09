@@ -1,7 +1,10 @@
-
 # <type>(<scope>): <subject>
 #
-# Body
+# Multi-line description of commit,
+# feel free to be detailed.
+#
+# [Ticket: X]
+# [PATCH, MINOR, MAJOR]
 #
 # Footer
 
