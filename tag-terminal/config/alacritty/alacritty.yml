@@ -54,19 +54,19 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: IBM Plex Mono
+    family: BlexMono Nerd Font
     # Style can be specified to pick a specific face.
-    style: Text
+    style: Book
 
   # The bold font face
   bold:
-    family: IBM Plex Mono
+    family: BlexMono Nerd Font
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: IBM Plex Mono
+    family: BlexMono Nerd Font
     # Style can be specified to pick a specific face.
     style: Italic
 

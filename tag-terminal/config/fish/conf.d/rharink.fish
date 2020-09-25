@@ -1,6 +1,6 @@
-set --universal fish_user_paths $fish_user_paths ~/.local/bin
-set --universal fish_user_paths $fish_user_paths ~/.cargo/bin
-set --universal fish_user_paths $fish_user_paths ~/.npm-global/bin
+set -U fish_user_paths ~/.local/bin $fish_user_paths
+set -U fish_user_paths ~/.cargo/bin $fish_user_paths
+set -U fish_user_paths ~/.npm-global/bin $fish_user_paths
 
 alias edit "emacsclient -cn -a vim" 
 alias e "edit"
@@ -13,7 +13,7 @@ alias vim "nvim"
 #alias screen-dual "xrandr --setprovideroutputsource 1 0; xrandr --output DVI-I-1-1 --auto --above eDP1"
 
 alias cat "bat"
-alias ls "exa"
+#alias ls "exa"
 
 # Git aliasses
 alias gs "git status -sb"
@@ -39,12 +39,11 @@ set -U DARCS_EDITOR vim
 #set -x GIT_COMPLETION_CHECKOUT_NO_GUESS "1"
 #set -x MAILCHECK "0"
 
+# LS_COLORS
+source ~/.lscolors.sh
+
 # Source local stuff.
 source ~/.localrc
 
 # Starship propmt
 starship init fish | source
-
-# Use nix
-#fenv "source ~/.nix-profile/etc/profile.d/nix.sh"
-#eval (direnv hook fish)
