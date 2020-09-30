@@ -8,7 +8,7 @@
   "Face for stub links."
   :group 'neuron-faces)
 
-(customize-set-variable 'neuron-default-zettelkasten-directory (expand-file-name "~/zettelkasten"))
+(customize-set-variable 'neuron-default-zettelkasten-directory (expand-file-name "~/org/zettelkasten"))
 
 (customize-set-variable 'neuron-default-tags (list "stub"))
 

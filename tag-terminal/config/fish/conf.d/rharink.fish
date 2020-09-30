@@ -2,7 +2,7 @@ set -U fish_user_paths ~/.local/bin $fish_user_paths
 set -U fish_user_paths ~/.cargo/bin $fish_user_paths
 set -U fish_user_paths ~/.npm-global/bin $fish_user_paths
 
-alias edit "emacsclient -cn -a vim" 
+alias edit "emacsclient -cn -a vim -F '\'(fullscreen . maximized)'" 
 alias e "edit"
 
 alias tm "tmux -2 new -A -s base"

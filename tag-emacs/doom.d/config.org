@@ -68,25 +68,18 @@ Oh, and previews are nice
 #+BEGIN_SRC emacs-lisp
 (setq +ivy-buffer-preview t)
 #+END_SRC
-*** Buffer defaults
-I'd much rather have my new buffers in ~org-mode~ than ~fundamental-mode~, hence
-#+BEGIN_SRC emacs-lisp
-;; (setq-default major-mode 'org-mode)
-#+END_SRC
-For some reason this + the mixed pitch hook causes issues with hydra and so I'll
-just need to resort to =SPC b o= for now.
 ** Doom configuration
 *** Visual Settings
 **** Font Face
 'Fira Code' is nice, and 'Overpass' makes for a nice sans companion. We just need to
 fiddle with the font sizes a tad so that they visually match.
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 14)
+(setq doom-font (font-spec :family "IBM Plex Mono Text" :size 14)
       doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 16))
 #+END_SRC
 **** Theme
 #+BEGIN_SRC emacs-lisp
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-one-light)
 #+END_SRC
 However, by default ~red~ text is used in the ~modeline~, so let's make that orange
 so I don't feel like something's gone /wrong/ when editing files.
@@ -277,6 +270,16 @@ Lets install the latest version of rust-analyzer first:
 curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.local/bin/rust-analyzer
 chmod +x ~/.local/bin/rust-analyzer
 #+END_SRC
+*** Shellcheck
+Be concise about shell scripts
+#+BEGIN_SRC shell
+sudo apt install shellcheck
+#+END_SRC
+*** Editorconfig
+Let others worry about tabs vs. spaces
+#+BEGIN_SRC shell
+sudo apt install editorconfig
+#+END_SRC
 * Package configuration
 ** Abbrev mode
 Thanks to [[https://emacs.stackexchange.com/questions/45462/use-a-single-abbrev-table-for-multiple-modes/45476#45476][use a single abbrev-table for multiple modes? - Emacs Stack Exchange]] I
@@ -335,19 +338,63 @@ It's nice to have completions almost all the time, in my opinion. Key strokes
 are just waiting to be saved!
 #+BEGIN_SRC emacs-lisp
 (after! company
-  (setq company-idle-delay 0.2)
-(add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+  (setq company-idle-delay 0.1)
+(add-hook 'evil-normal-state-entry-hook 'company-abort)) ;; make aborting less annoying.
 #+END_SRC
+
 Now, the improvements from ~precident~ are mostly from remembering history, so
 let's improve that memory.
 #+BEGIN_SRC emacs-lisp
 (setq-default history-length 1000)
 (setq-default prescient-history-length 1000)
 #+END_SRC
+
 Enable company-box
 #+BEGIN_SRC emacs-lisp
 (use-package company-box
-  :hook (company-mode . company-box-mode))
+  :diminish company-box-mode
+  :hook (company-mode . company-box-mode)
+  :init
+  (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+  :config
+  (require 'all-the-icons)
+  (setf (alist-get 'min-height company-box-frame-parameters) 6)
+  (setq company-box-icons-alist 'company-box-icons-all-the-icons
+        company-box-backends-colors nil
+
+        ;; These are the Doom Emacs defaults
+        company-box-icons-all-the-icons
+        `((Unknown       . ,(all-the-icons-material "find_in_page"             :face 'all-the-icons-purple))
+          (Text          . ,(all-the-icons-material "text_fields"              :face 'all-the-icons-green))
+          (Method        . ,(all-the-icons-material "functions"                :face 'all-the-icons-red))
+          (Function      . ,(all-the-icons-material "functions"                :face 'all-the-icons-red))
+          (Constructor   . ,(all-the-icons-material "functions"                :face 'all-the-icons-red))
+          (Field         . ,(all-the-icons-material "functions"                :face 'all-the-icons-red))
+          (Variable      . ,(all-the-icons-material "adjust"                   :face 'all-the-icons-blue))
+          (Class         . ,(all-the-icons-material "class"                    :face 'all-the-icons-red))
+          (Interface     . ,(all-the-icons-material "settings_input_component" :face 'all-the-icons-red))
+          (Module        . ,(all-the-icons-material "view_module"              :face 'all-the-icons-red))
+          (Property      . ,(all-the-icons-material "settings"                 :face 'all-the-icons-red))
+          (Unit          . ,(all-the-icons-material "straighten"               :face 'all-the-icons-red))
+          (Value         . ,(all-the-icons-material "filter_1"                 :face 'all-the-icons-red))
+          (Enum          . ,(all-the-icons-material "plus_one"                 :face 'all-the-icons-red))
+          (Keyword       . ,(all-the-icons-material "filter_center_focus"      :face 'all-the-icons-red))
+          (Snippet       . ,(all-the-icons-material "short_text"               :face 'all-the-icons-red))
+          (Color         . ,(all-the-icons-material "color_lens"               :face 'all-the-icons-red))
+          (File          . ,(all-the-icons-material "insert_drive_file"        :face 'all-the-icons-red))
+          (Reference     . ,(all-the-icons-material "collections_bookmark"     :face 'all-the-icons-red))
+          (Folder        . ,(all-the-icons-material "folder"                   :face 'all-the-icons-red))
+          (EnumMember    . ,(all-the-icons-material "people"                   :face 'all-the-icons-red))
+          (Constant      . ,(all-the-icons-material "pause_circle_filled"      :face 'all-the-icons-red))
+          (Struct        . ,(all-the-icons-material "streetview"               :face 'all-the-icons-red))
+          (Event         . ,(all-the-icons-material "event"                    :face 'all-the-icons-red))
+          (Operator      . ,(all-the-icons-material "control_point"            :face 'all-the-icons-red))
+          (TypeParameter . ,(all-the-icons-material "class"                    :face 'all-the-icons-red))
+          (Template      . ,(all-the-icons-material "short_text"               :face 'all-the-icons-green))))
+
+;; Add a space after the icon
+(dolist (elt company-box-icons-all-the-icons)
+  (setcdr elt (concat (cdr elt) " "))))
 #+END_SRC
 *** Plain Text
 ~ispell~ is nice, let's have it in ~text~, ~markdown~, and ~GFM~.
@@ -497,12 +544,25 @@ You can enable variable-pitch-mode automatically for org buffers by setting up a
 )
 
 #+END_SRC
+
+I like to keep my journal private:
+#+BEGIN_SRC emacs-lisp
+(setq +org-capture-journal-file "~/org/journal.org.gpg")
+#+END_SRC
 ** Pretty Mode
 Enable font ligatures
 #+BEGIN_SRC emacs-lisp
 (use-package! pretty-mode
   :init
   (global-pretty-mode t)
+  )
+#+END_SRC
+** PHP Mode
+PHP Mode configuration
+#+BEGIN_SRC emacs-lisp
+(use-package! php-mode
+  :init
+  (setq phpactor-executable "/usr/local/bin/phpactor")
   )
 #+END_SRC
 ** Smart Parentheses
@@ -571,10 +631,14 @@ It's nice to see ansi colour codes displayed
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (setq company-tooltip-align-annotations t)
+  (setq tide-completion-detailed nil)
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
+  ;; enable eslint
+  (setq flycheck-checker 'javascript-eslint)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
   ;; enable typescript-tslint checker
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  ;;(flycheck-add-mode 'typescript-tslint 'web-mode)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
