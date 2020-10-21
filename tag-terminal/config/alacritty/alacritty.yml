@@ -236,7 +236,7 @@ mouse:
 shell:
   program: fish
   args:
-    - -C neofetch
+    - -C neofetch && ~/.tmux_choose.sh
 
 
 # Colors (One Half Dark)

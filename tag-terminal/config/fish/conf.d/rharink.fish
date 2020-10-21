@@ -39,11 +39,12 @@ set -U DARCS_EDITOR vim
 #set -x GIT_COMPLETION_CHECKOUT_NO_GUESS "1"
 #set -x MAILCHECK "0"
 
+# Starship propmt
+starship init fish | source
+
 # LS_COLORS
 source ~/.lscolors.sh
 
 # Source local stuff.
 source ~/.localrc
 
-# Starship propmt
-starship init fish | source

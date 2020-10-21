@@ -79,7 +79,7 @@ fiddle with the font sizes a tad so that they visually match.
 #+END_SRC
 **** Theme
 #+BEGIN_SRC emacs-lisp
-(setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-one)
 #+END_SRC
 However, by default ~red~ text is used in the ~modeline~, so let's make that orange
 so I don't feel like something's gone /wrong/ when editing files.
@@ -194,13 +194,6 @@ our package manager can't deal with; see [[https://github.com/raxod502/straight.
 #+END_SRC
 ** General packages
 *** Prettification
-~prettify-mode~ is nice and all, but adding substitutions is a little verbose.
-This helps with that.
-#+BEGIN_SRC emacs-lisp
-(package! prettify-utils ; simplify messing with prettify-mode
-  :recipe (:host github :repo "Ilazki/prettify-utils.el") :pin "8b783d316c23bffdf2b9e6f52635482c4812ee43")
-#+END_SRC
-
 Use org bullets to prettify title bullets etc.
 #+BEGIN_SRC emacs-lisp
 (package! org-bullets)
@@ -210,16 +203,7 @@ Completion with icons for company
 #+BEGIN_SRC emacs-lisp
 (package! company-box)
 #+END_SRC
-*** Window management
-#+BEGIN_SRC emacs-lisp
-(package! rotate :pin "091b5ac4fc310773253efb317e3dbe8e46959ba6")
-#+END_SRC
 *** Improving features
-**** Flyspell-lazy
-To alleviate some [[Flyspell][issues with flyspell]]
-#+BEGIN_SRC emacs-lisp
-(package! flyspell-lazy :pin "3ebf68cc9eb10c972a2de8d7861cbabbbce69570")
-#+END_SRC
 **** CalcTeX
 This is a nice extension to ~calc~
 #+BEGIN_SRC emacs-lisp
@@ -243,19 +227,10 @@ Variable pitch fontification + colouring
 #+BEGIN_SRC emacs-lisp
 (package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
 #+END_SRC
-*** Pretty-mode
-For ligatures
-#+BEGIN_SRC emacs-lisp
-(package! pretty-mode)
-#+END_SRC
 *** VTerm
 We should install libvterm first
 #+BEGIN_SRC shell
 sudo apt install libvterm0 libtool libtool-bin
-#+END_SRC
-*** Colorpicker
-#+BEGIN_SRC emacs-lisp
-(package! webkit-color-picker)
 #+END_SRC
 ** Language packages
 *** Typescript
@@ -312,7 +287,7 @@ Radians are just better
 (add-hook 'calc-mode-hook #'calctex-mode)
 #+END_SRC
 ** Centaur Tabs
-We want to make the tabs a nice, comfy size (~36~), with icons. The modifier
+We want to make the tabs a nice, comfy size (~32~), with icons. The modifier
 marker is nice, but the particular default Unicode one causes a lag spike, so
 let's just switch to an ~o~, which still looks decent but doesn't cause any
 issues.
@@ -324,13 +299,12 @@ well somehow, so let's switch to 'P22 Underground Book'; it looks much nicer.
 #+BEGIN_SRC emacs-lisp
 (after! centaur-tabs
   (centaur-tabs-mode -1)
-  (setq centaur-tabs-height 36
+  (setq centaur-tabs-height 32
         centaur-tabs-set-icons t
         centaur-tabs-modified-marker "o"
         centaur-tabs-close-button "×"
         centaur-tabs-set-bar 'above)
-        centaur-tabs-gray-out-icons 'buffer
-  (centaur-tabs-change-fonts "P22 Underground Book" 160))
+        centaur-tabs-gray-out-icons 'buffer)
 ;; (setq x-underline-at-descent-line t)
 #+END_SRC
 ** Company
@@ -338,7 +312,7 @@ It's nice to have completions almost all the time, in my opinion. Key strokes
 are just waiting to be saved!
 #+BEGIN_SRC emacs-lisp
 (after! company
-  (setq company-idle-delay 0.1)
+  (setq company-idle-delay 0)
 (add-hook 'evil-normal-state-entry-hook 'company-abort)) ;; make aborting less annoying.
 #+END_SRC
 
@@ -420,7 +394,7 @@ We then configure the dictionary we're using in [[*Ispell][ispell]].
   (deft-recursive t)
   (deft-extensions '("org" "md" "txt"))
   (deft-default-extension "md")
-  (deft-directory "~/zettelkasten")
+  (deft-directory "~/org")
   :init
   (setq deft-file-naming-rules '( (noslash . "-") ))
   (setq deft-strip-summary-regexp
@@ -429,23 +403,6 @@ We then configure the dictionary we're using in [[*Ispell][ispell]].
             "\\|^#\\+[a-zA-Z_]+:.*$" ;;org-mode metadata
             "\\)"))
   )
-#+END_SRC
-** Elcord
-#+BEGIN_SRC emacs-lisp
-(setq elcord-use-major-mode-as-main-icon t)
-#+END_SRC
-** Eros-eval
-This makes the result of evals with =gr= and =gR= just slightly prettier. Every bit
-counts right?
-#+BEGIN_SRC emacs-lisp
-(setq eros-eval-result-prefix "⟹ ")
-#+END_SRC
-** Flyspell
-At one point, typing became noticeably laggy, Profiling revealed
-~flyspell-post-command-hook~ was responsible for 47% of CPU cycles by itself!
-So I'm going to make use of ~flyspell-lazy~
-#+BEGIN_SRC emacs-lisp
-(after! flyspell (require 'flyspell-lazy) (flyspell-lazy-mode 1))
 #+END_SRC
 ** Info colors
 #+BEGIN_SRC emacs-lisp
@@ -475,7 +432,7 @@ the above.
 It seems reasonable to want to keep an eye on my personal dict, let's have it
 nearby (also means that if I change the 'main' dictionary I keep my addition).
 #+BEGIN_SRC emacs-lisp
-(setq ispell-personal-dictionary (expand-file-name ".hunspell_personal" doom-private-dir))
+(setq ispell-personal-dictionary (expand-file-name "hunspell_personal" doom-private-dir))
 #+END_SRC
 ** Magit
 Magit is pretty nice by default. The diffs don't get any
@@ -542,20 +499,11 @@ You can enable variable-pitch-mode automatically for org buffers by setting up a
         '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
         '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
 )
-
 #+END_SRC
 
 I like to keep my journal private:
 #+BEGIN_SRC emacs-lisp
 (setq +org-capture-journal-file "~/org/journal.org.gpg")
-#+END_SRC
-** Pretty Mode
-Enable font ligatures
-#+BEGIN_SRC emacs-lisp
-(use-package! pretty-mode
-  :init
-  (global-pretty-mode t)
-  )
 #+END_SRC
 ** PHP Mode
 PHP Mode configuration
@@ -575,7 +523,7 @@ PHP Mode configuration
 ** Which-key
 Let's make this popup a bit faster
 #+BEGIN_SRC emacs-lisp
-(setq which-key-idle-delay 0.5) ;; I need the help, I really do
+(setq which-key-idle-delay 0.3) ;; I need the help, I really do
 #+END_SRC
 I also think that having =evil-= appear in so many popups is a bit too verbose, let's change that, and do a few other similar tweaks while we're at it.
 #+BEGIN_SRC emacs-lisp
@@ -598,7 +546,7 @@ Nested snippets are good, enable that.
   :bind (("C-c C-p" . webkit-color-picker-show)))
 #+END_SRC
 * Language configuration
-*** File Templates
+** File Templates
 For some file types, we overwrite defaults in the [[file:./snippets][snippets]] directory, others
 need to have a template assigned.
 #+BEGIN_SRC emacs-lisp
@@ -648,8 +596,7 @@ It's nice to see ansi colour codes displayed
 (use-package tide
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
+         (typescript-mode . tide-hl-identifier-mode)))
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 

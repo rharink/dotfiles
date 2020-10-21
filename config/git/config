@@ -24,7 +24,7 @@
 
 [commit]
     template = ~/.config/git/gitmessage
-    gpgSign = true
+    #gpgSign = true
 
 [delta]
     plus-color = "#012800"
