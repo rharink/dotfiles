@@ -1,6 +1,4 @@
-set -U fish_user_paths ~/.local/bin $fish_user_paths
-set -U fish_user_paths ~/.cargo/bin $fish_user_paths
-set -U fish_user_paths ~/.npm-global/bin $fish_user_paths
+set -U fish_user_paths ~/.local/bin  ~/.cargo/bin ~/.npm-global/bin ~/.config/composer/vendor/bin
 
 alias edit "emacsclient -cn -a vim -F '\'(fullscreen . maximized)'" 
 alias e "edit"
@@ -9,11 +7,18 @@ alias tm "tmux -2 new -A -s base"
 alias vd "vimdiff"
 alias vim "nvim"
 
-# Screen/monitor setup aliases
-#alias screen-dual "xrandr --setprovideroutputsource 1 0; xrandr --output DVI-I-1-1 --auto --above eDP1"
-
+# Rust alternatives
 alias cat "bat"
 #alias ls "exa"
+alias x "exa"
+alias find "fdfind"
+alias grep "rg"
+alias du "dust"
+alias cloc "tokei"
+alias ps "procs"
+alias sed "sd"
+alias top "btm"
+alias htop "btm"
 
 # Git aliasses
 alias gs "git status -sb"

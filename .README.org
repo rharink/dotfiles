@@ -1,0 +1,7 @@
+* Dotfiles
+
+#+BEGIN_SRC shell
+apt install \
+  git \
+  fish \
+#+END_SRC
