@@ -1,4 +1,3 @@
-# -*- mode: org; -*-
 #+title: Doom Emacs Configuration
 #+author: rharink
 #+startup: fold
@@ -25,6 +24,11 @@ machine is pretty safe, and my laptop is shutdown a lot.
 (setq auth-sources '("~/.authinfo.gpg")
       auth-source-cache-expiry nil) ; default is 7200 (2h)
 #+end_src
+
+I use yubikeys for ssh so let's change the ssh auth sock variable
+#+begin_src emacs-lisp
+(setenv "SSH_AUTH_SOCK" "/Users/robert/.gnupg/S.gpg-agent.ssh")
+#+end_src
 ** Defaults
 *** Simple settings
 #+begin_src emacs-lisp
@@ -45,15 +49,7 @@ machine is pretty safe, and my laptop is shutdown a lot.
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 #+end_src
 
-*** Full Screen
-I also like the idea of full screen-ing when opened by ~Emacs~ or the ~.desktop~ file.
-#+begin_src emacs-lisp
-(if (eq initial-window-system 'x)                 ; if started by emacs command or desktop file
-    (toggle-frame-maximized)
-  (toggle-frame-fullscreen))
-#+end_src
-
-*** Auto-customisations
+*** Auto-customisation
 By default changes made via a customisation interface are added to =init.el=.
 I prefer the idea of using a separate file for this. We just need to change a
 setting, and load it if it exists.
@@ -153,7 +149,7 @@ have flags applied to tweak their behaviour.
        debugger                     ; FIXME stepping through code, to help you add bugs
        ;;direnv                     ; be direct about your environment
        ;;docker                     ; port everything to containers
-       ;;editorconfig               ; let someone else argue about tabs vs spaces
+       editorconfig               ; let someone else argue about tabs vs spaces
        ;;ein                        ; tame Jupyter notebooks with emacs
        (eval +overlay)              ; run code, run (also, repls)
        ;;gist                       ; interacting with github gists
@@ -161,7 +157,6 @@ have flags applied to tweak their behaviour.
         +dictionary                 ; dictionary/thesaurus is nice
         +docsets)                   ; ...or in Dash docsets locally
        lsp                          ; Language Server Protocol
-       ;;macos                      ; MacOS-specific commands
        (magit                       ; a git porcelain for Emacs
         +forge)                     ; interface with git forges
        make                         ; run make tasks from Emacs
@@ -177,6 +172,7 @@ have flags applied to tweak their behaviour.
 
        :os
        tty                          ; improve the terminal Emacs experience
+       macos                        ; MacOS-specific commands
 
        :lang
        ;;agda                       ; types of types of types of types...
@@ -272,9 +268,9 @@ fiddle with the font sizes a tad so that they visually match. Just for fun I'm
 trying out JetBrains Mono though. So far I have mixed feelings on it, some
 aspects are nice, but on others I prefer Fira.
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "JetBrains Mono" :size 16)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 36)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "Helvetica Neue")
       doom-serif-font (font-spec :family "IBM Plex Sans" :weight 'light))
 #+end_src
 I like a little more line-spacing
@@ -431,9 +427,17 @@ Variable pitch fontification + colouring
 #+begin_src emacs-lisp
 (package! mixed-pitch)
 #+end_src
+*** SVG-Tags
+#+begin_src emacs-lisp
+(package! svg-tag-mode)
+#+end_src
 *** Slack
 #+begin_src emacs-lisp
 (package! slack)
+#+end_src
+*** Origami
+#+begin_src emacs-lisp
+(package! origami)
 #+end_src
 ** Language packages
 *** Org Mode
@@ -592,6 +596,73 @@ XDebug
   (deft-default-extension "org")
   (deft-directory "~/org/zettelkasten"))
 #+end_src
+** Evil
+ I don’t use ~evil-escape-mode~, so I may as well turn it off, I’ve heard it
+ contributes a typing delay. I’m not sure it’s much, but it is an extra
+ pre-command-hook that I don’t benefit from, so…
+#+begin_src emacs-lisp
+(after! evil-escape (evil-escape-mode -1))
+#+end_src
+
+When I want to make a substitution, I want it to be global more often than not —
+so let’s make that the default. 
+#+begin_src emacs-lisp
+(after! evil (setq evil-ex-substitute-global t))
+#+end_src
+** ISpell
+*** Downloading dictionaries
+Let's get a nice big dictionary from [[http://app.aspell.net/create][SCOWL Custom List/Dictionary Creator]] with
+the following configuration
+- size :: 80 (huge)
+- spellings :: British(-ise) and Australian
+- spelling variants level :: 0
+- diacritics :: keep
+- extra lists :: hacker, roman numerals
+  *** Hunspell
+#+begin_src shell :tangle (if (file-exists-p "/usr/local/share/myspell/en-custom.dic") "no" "setup.sh")
+cd /tmp
+curl -o "hunspell-en-custom.zip" 'http://app.aspell.net/create?max_size=80&spelling=GBs&spelling=US&max_variant=0&diacritic=keep&special=hacker&special=roman-numerals&encoding=utf-8&format=inline&download=hunspell'
+unzip "hunspell-en-custom.zip"
+
+mv en-custom.{aff,dic} /usr/local/share/myspell/
+#+end_src
+**** Aspell
+#+begin_src shell :tangle (if (file-expand-wildcards "/usr/lib64/aspell*/en-custom.multi") "no" "setup.sh")
+cd /tmp
+curl -o "aspell6-en-custom.tar.bz2" 'http://app.aspell.net/create?max_size=80&spelling=GBs&spelling=AU&max_variant=0&diacritic=keep&special=hacker&special=roman-numerals&encoding=utf-8&format=inline&download=aspell'
+tar -xjf "aspell6-en-custom.tar.bz2"
+
+cd aspell6-en-custom
+./configure && make && make install
+#+end_src
+*** Configuration
+#+begin_src emacs-lisp
+(setq ispell-dictionary "en-custom")
+#+end_src
+Oh, and by the way, if ~company-ispell-dictionary~ is ~nil~, then
+~ispell-complete-word-dict~ is used instead, which once again when ~nil~ is
+~ispell-alternate-dictionary~, which at the moment maps to a plaintext version of
+the above.
+
+It seems reasonable to want to keep an eye on my personal dict, let's have it
+nearby (also means that if I change the 'main' dictionary I keep my addition).
+#+begin_src emacs-lisp
+(setq ispell-personal-dictionary (expand-file-name ".ispell_personal" doom-private-dir))
+#+end_src
+** Ivy
+While in an ivy mini-buffer =C-o= shows a list of all possible actions one may take.
+By default this is ~#'ivy-read-action-by-key~ however a better interface to this
+is using Hydra.
+#+begin_src emacs-lisp
+(setq ivy-read-action-function #'ivy-hydra-read-action)
+#+end_src
+
+I currently have ~40k functions. This seems like sufficient motivation to
+increase the maximum number of items ivy will sort to 40k + a bit, this way
+=SPC h f= et al. will continue to function as expected.
+#+begin_src emacs-lisp
+(setq ivy-sort-max-size 50000)
+#+end_src
 ** Slack
 #+begin_src emacs-lisp
 (use-package! slack
@@ -649,6 +720,14 @@ XDebug
   :commands (alert)
   :init
   (setq alert-default-style 'notifier))
+#+end_src
+** SVG-Tags
+#+begin_src emacs-lisp
+;;(use-package! svg-tag-mode)
+#+end_src
+** Origami
+#+begin_src emacs-lisp
+(use-package! origami)
 #+end_src
 * Language configuration
 ** General
@@ -731,8 +810,13 @@ XDebug
       org-catch-invisible-edits 'smart            ; try not to accidently do weird stuff in invisible regions
       +org-capture-todo-file "~/org/gtd/todo.org"
       org-duration-format (quote (("h" . t) (special . 2)))
-      org-todo-keywords
-      '((sequence "TODO(t)" "STARTED(s!)" "WAITING(w!)" "MAYBE(m)" "|" "DONE(x!)" "CANCELLED(c!)"))
+      org-todo-keywords '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "MAYBE(m)" "|" "DONE(x)" "CANCELLED(c)"))
+      org-todo-keyword-faces '(("TODO" . (:foreground "#0afc6f" :weight bold))
+                               ("STARTED" . (:foreground "#fcc900" :weight bold))
+                               ("WAITING" . (:foreground "#fcc900" :weight bold))
+                               ("MAYBE" . (:foreground "#828282" :weight bold))
+                               ("DONE" . (:foreground "#fab3fc" :weight bold))
+                               ("CANCELLED" . (:foreground "#fab3fc" :italic t)))
       org-agenda-files (quote ("~/org/gtd/todo.org"
                                "~/org/calendar/"
                                "~/org/trello/"))
@@ -807,15 +891,6 @@ Show effort in agenda items
                                  (search . " %i %-12:c")))
 #+end_src
 
-I like to open zotero:// links
-#+begin_src emacs-lisp
-(org-link-set-parameters "zotero" :follow
-                         (lambda (zpath)
-                           (browse-url
-                            ;; we get the "zotero:"-less url, so we put it back.
-                            (format "zotero:%s" zpath))))
-#+end_src
-
 By default, ~visual-line-mode~ is turned =on=, and ~auto-fill-mode~ =off= by a hook.
 However this messes with tables in Org-mode, and other plaintext files (e.g.
 markdown, \LaTeX) so I'll turn it off for this, and manually enable it for more
@@ -840,7 +915,7 @@ Use mixed pitch in orgmode
 (after! org-agenda
   (org-super-agenda-mode))
 
-;; header key map break evil navigation
+;; header key map breaks evil navigation
 (setq org-super-agenda-header-map (make-sparse-keymap))
 
 (setq org-agenda-skip-scheduled-if-done t
@@ -850,7 +925,7 @@ Use mixed pitch in orgmode
       org-agenda-block-separator nil
       org-agenda-compact-blocks t
       org-agenda-start-with-log-mode t
-      org-agenda-tags-column 100)
+      org-agenda-start-on-weekday nil)
 
 (setq org-agenda-custom-commands
       '(("o" "Overview"
@@ -894,43 +969,12 @@ Use mixed pitch in orgmode
                           ))))))))
 #+end_src
 *** Agenda
-Open loops
-#+BEGIN_SRC emacs-lisp
-(defun my-org-agenda-recent-open-loops ()
-  (interactive)
-  (let ((org-agenda-start-with-log-mode t)
-        (org-agenda-use-time-grid nil)
-        (org-agenda-files '("~/org/calendar/")))
-    (org-gcal-fetch)
-    (org-agenda-list nil (org-read-date nil nil "-2d") 4)
-    (beginend-org-agenda-mode-goto-beginning)))
-
-(defun my-org-agenda-longer-open-loops ()
-  (interactive)
-  (let ((org-agenda-start-with-log-mode t)
-        (org-agenda-use-time-grid nil)
-        (org-agenda-files '("~/org/calendar")))
-    (org-gcal-fetch)
-    (org-agenda-list 'file (org-read-date nil nil "-14d") 28)
-    (beginend-org-agenda-mode-goto-beginning)))
-#+END_SRC
-
-Custom padding for agenda items
-#+begin_src emacs-lisp
-(defun rh/get-padded-todo-parent (size)
-  "Return string of length SIZE containing either padded or truncated parent name."
-  (let* ((parent (cadr (org-get-outline-path)))
-         (padding (- size (length parent))))
-    (if (< padding 0) (substring parent 0 size)
-      (concat parent (make-string padding ?\ )))))
-#+end_src
-
 Refiling
 #+BEGIN_SRC emacs-lisp
-(setq org-refile-targets '((("~/org/gtd/todo.org" "~/org/gtd/somedaymaybe.org") :maxlevel . 3))
+(setq org-refile-targets '((("~/org/gtd/todo.org") :maxlevel . 3))
       ;; org-refile-use-cache t
       org-refile-use-outline-path t)
-#+END_SRC
+ #+END_SRC
 
 Enter manual clock entries
 #+begin_src emacs-lisp
@@ -942,6 +986,21 @@ Enter manual clock entries
   ;; Inserts the current time by default.
   (let ((current-prefix-arg '(4))) (call-interactively 'org-time-stamp-inactive))
   (org-ctrl-c-ctrl-c))
+#+end_src
+
+Open agenda on today
+#+begin_src emacs-lisp
+(map!
+ :leader
+ (:prefix "o"
+  ("z" #'org-agenda-on-today)))
+
+
+(defun org-agenda-on-today (&optional arg org-keys restriction)
+  (interactive "P")
+  (org-agenda arg org-keys restriction)
+  (when (org-agenda-check-type nil 'agenda)
+    (org-agenda-goto-today)))
 #+end_src
 *** Gcal
 #+begin_src emacs-lisp
