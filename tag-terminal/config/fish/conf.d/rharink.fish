@@ -8,17 +8,17 @@ alias vd "vimdiff"
 alias vim "nvim"
 
 # Rust alternatives
-alias cat "bat"
+#alias cat "bat"
 #alias ls "exa"
-alias x "exa"
-alias find "fdfind"
-alias grep "rg"
-alias du "dust"
-alias cloc "tokei"
-alias ps "procs"
-alias sed "sd"
-alias top "btm"
-alias htop "btm"
+#alias x "exa"
+#alias find "fdfind"
+#alias grep "rg"
+#alias du "dust"
+#alias cloc "tokei"
+#alias ps "procs"
+#alias sed "sd"
+#alias top "btm"
+#alias htop "btm"
 
 # Git aliasses
 alias gs "git status -sb"
@@ -40,9 +40,9 @@ set -U DARCS_EDITOR vim
 # Exports
 #set -x LANG "en_US.UTF-8"
 #set -x LC_ALL "en_US.UTF-8"
-#set -x MANPAGER "less -X"
-#set -x GIT_COMPLETION_CHECKOUT_NO_GUESS "1"
-#set -x MAILCHECK "0"
+set -x MANPAGER "less -X"
+set -x GIT_COMPLETION_CHECKOUT_NO_GUESS "1"
+set -x MAILCHECK "0"
 
 # Starship propmt
 starship init fish | source
