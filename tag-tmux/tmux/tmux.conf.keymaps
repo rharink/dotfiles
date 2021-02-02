@@ -1,33 +1,3 @@
-bind r source-file ~/.tmux.conf 
-
-# use <Strg> + <Space> instead of <Strg> + <b> as prefix
-#
-#unbind C-b
-#set-option -g prefix C-Space
-#bind-key C-Space send-prefix
-
-# split windows with | and _ instead of % and "
-#
-#unbind '"'
-#unbind %
-#bind | split-window -h -c "#{pane_current_path}"
-#bind _ split-window -v -c "#{pane_current_path}"
-
-
-# Extra Vi friendly stuff
-# y and p as in vim
-bind Escape copy-mode
-unbind p
-bind p paste-buffer
-bind-key -T copy-mode-vi 'v' send -X begin-selection
-bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
-bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
-
-# Clear screen like CTRL-L (now prefix+CTRL-L)
-#
-bind C-l send-keys 'C-l'
-
-
 # Smart pane switching with awareness of Vim splits.
 # See: https://github.com/christoomey/vim-tmux-navigator
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
@@ -48,6 +18,16 @@ bind-key -T copy-mode-vi 'C-k' select-pane -U
 bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
 
+# Extra Vi friendly stuff
+# y and p as in vim
+bind Escape copy-mode
+unbind p
+bind p paste-buffer
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
+bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+
+
 # resize panes by pressing <Alt> + <Arrow>
 #
 bind -n M-Left  resize-pane -L 5
@@ -55,14 +35,3 @@ bind -n M-Down  resize-pane -D 5
 bind -n M-Up    resize-pane -U 5
 bind -n M-Right resize-pane -R 5
 
-# switch windows by pressing <Alt> + <1...9>
-#
-bind -n M-1 select-window -t 1
-bind -n M-2 select-window -t 2
-bind -n M-3 select-window -t 3
-bind -n M-4 select-window -t 4
-bind -n M-5 select-window -t 5
-bind -n M-6 select-window -t 6
-bind -n M-7 select-window -t 7
-bind -n M-8 select-window -t 8
-bind -n M-9 select-window -t 9

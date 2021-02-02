@@ -1,0 +1,3 @@
+#!/bin/sh
+e --frame-parameters="'(fullscreen . maximized)" \
+    --eval '(progn (magit "."))'

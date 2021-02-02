@@ -1,11 +1,16 @@
 set -U fish_user_paths ~/.local/bin  ~/.cargo/bin ~/.npm-global/bin ~/.config/composer/vendor/bin
 
+set -x EDITOR "vim"
+
 alias edit "emacsclient -cn -a vim -F '\'(fullscreen . maximized)'" 
 alias e "edit"
+alias brew_arm "arch --arm64 /opt/homebrew/bin/brew"
+alias brew_x86 "arch --x86_64 /usr/local/bin/brew"
+alias vim "nvim"
+alias vi "nvim"
 
 alias tm "tmux -2 new -A -s base"
 alias vd "vimdiff"
-alias vim "nvim"
 
 # Rust alternatives
 #alias cat "bat"
@@ -48,7 +53,7 @@ set -x MAILCHECK "0"
 starship init fish | source
 
 # LS_COLORS
-source ~/.lscolors.sh
+#source ~/.lscolors.sh
 
 # Source local stuff.
 source ~/.localrc

@@ -1,4 +1,39 @@
-# Replace the "❯" symbol in the prompt with "➜"
+# Format
+format = """
+$username\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$rust\
+$custom\
+$status\
+$line_break\
+$character\
+"""
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+add_newline = true
+
+[directory]
+truncation_length = 2
+truncate_to_repo = false
+
+[git_branch]
+always_show_remote = false
+
+[git_commit]
+commit_hash_length = 7
+
+[git_status]
+ahead = "?${count}"
+diverged = "??${ahead_count}?${behind_count}"
+behind = "?${count}"
+
+
 [character]                            # The name of the module we are configuring is "character"
 success_symbol = "[λ](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 
@@ -6,3 +41,12 @@ success_symbol = "[λ](bold green)"     # The "success_symbol" segment is being 
 [package]
 disabled = true
 
+# Taskwarrior
+[custom.taskwarrior]
+disabled = false
+style="bold"
+description = "Show taskwarrior information when tracking a task"
+when = """ test (timew get dom.active) = 1 """
+command = """
+echo \\( (timew get dom.active.tag.1) [(timew get dom.active.duration)] \\)
+"""

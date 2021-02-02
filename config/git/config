@@ -24,7 +24,7 @@
 
 [commit]
     template = ~/.config/git/gitmessage
-    #gpgSign = true
+    gpgSign = true
 
 [delta]
     plus-color = "#012800"
@@ -49,6 +49,9 @@
 
 [push]
     default = simple
+
+[fetch]
+prune = true
 
 [filter "lfs"]
     clean = git-lfs clean -- %f
@@ -117,3 +120,14 @@
     # prune local tags that do not exist on remote
     prunetags = !git tag -l | xargs git tag -d && git fetch -t
 
+    # Displays your branches and when you last changed them. It’s really useful
+    # for remembering which one you were just working on, and which branches
+    # probably should be deleted.
+    wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+
+[feature]
+manyFiles = true
+
+[diff "ansible-vault"]
+	textconv = ansible-vault view
+	cachetextconv = false
