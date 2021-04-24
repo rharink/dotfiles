@@ -21,6 +21,8 @@ Plug 'peitalin/vim-jsx-typescript'
 " Colorscheme
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'itchyny/lightline.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'embark-theme/vim', { 'as': 'embark' }
 " Misc
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
@@ -115,19 +117,23 @@ set viminfo     ='100,n$HOME/.vim/files/info/viminfo
 
 "" {{{ Colorscheme
 set termguicolors
-colorscheme onehalfdark
+colorscheme dracula
 let g:lightline = {
-      \ 'colorscheme': 'onehalfdark',
+      \ 'colorscheme': 'dracula',
       \ }
 
-highlight Normal guibg=#202328
-highlight MatchParen guifg=#C678DD guibg=#504066
-highlight CursorLineNr guifg=#56B6C2
-highlight LineNr guibg=#202328
-highlight Error guifg=#f57373 guibg=#804040
-highlight vimError guifg=#f57373 guibg=#804040
-highlight spellBad guifg=#FFCC00 guibg=#202328
-highlight cSpell guifg=#FFCC00 guibg=#202328
+"highlight Normal guibg=#202328
+"highlight MatchParen guifg=#C678DD guibg=#504066
+"highlight CursorLineNr guifg=#56B6C2
+"highlight LineNr guibg=#202328
+"highlight Error guifg=#f57373 guibg=#804040
+"highlight vimError guifg=#f57373 guibg=#804040
+"highlight spellBad guifg=#FFCC00 guibg=#202328
+"highlight cSpell guifg=#FFCC00 guibg=#202328
+
+" Transparent background
+hi Normal guibg=NONE ctermbg=NONE
+let g:dracula_colorterm = 0
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"

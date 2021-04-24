@@ -1,6 +1,7 @@
-set -U fish_user_paths ~/.local/bin  ~/.cargo/bin ~/.npm-global/bin ~/.config/composer/vendor/bin
+set -U fish_user_paths ~/.local/bin  ~/.cargo/bin ~/.npm-global/bin ~/.config/composer/vendor/bin ~/.emacs.d/bin
 
-set -x EDITOR "vim"
+set -gx TERM screen-256color-bce;
+set -x EDITOR "nvim"
 
 alias edit "emacsclient -cn -a vim -F '\'(fullscreen . maximized)'" 
 alias e "edit"
@@ -54,6 +55,9 @@ starship init fish | source
 
 # LS_COLORS
 #source ~/.lscolors.sh
+
+# opam configuration
+source /Users/robert/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
 # Source local stuff.
 source ~/.localrc

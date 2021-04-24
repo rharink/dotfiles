@@ -11,7 +11,7 @@
 [user]
     name = Robert den Harink
     email = robert@robhar.com
-    signingkey = robert@robhar.com
+	signingkey = 1A68F5D1D6E7C24B
 
 [include]
     path = ~/.gitconfig.local
@@ -24,7 +24,10 @@
 
 [commit]
     template = ~/.config/git/gitmessage
-    gpgSign = true
+	gpgsign = false
+
+[checkout]
+  defaultRemote = origin
 
 [delta]
     plus-color = "#012800"
@@ -131,3 +134,5 @@ manyFiles = true
 [diff "ansible-vault"]
 	textconv = ansible-vault view
 	cachetextconv = false
+[init]
+	defaultBranch = main

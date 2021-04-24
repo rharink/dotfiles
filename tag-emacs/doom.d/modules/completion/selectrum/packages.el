@@ -2,4 +2,4 @@
 ;;; completion/selectrum/packages.el
 
 (package! selectrum)
-(package! prescient)
+(package! selectrum-prescient)

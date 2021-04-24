@@ -1,6 +1,7 @@
-#set-option -g  default-terminal 'tmux-256color'
-set-option -g  default-terminal 'xterm-256color'
-set-option -ga terminal-overrides ',xterm-256color:Tc'
+set-option -g  default-terminal 'tmux-256color'
+set-option -sa terminal-overrides ',xterm-256color:RGB'
+#set-option -g  default-terminal 'xterm-256color'
+#set-option -ga terminal-overrides ',xterm-256color:Tc'
 
 #environment variables
 set-option -g update-environment "SSH_AUTH_SOCK \
@@ -15,3 +16,4 @@ set -g renumber-windows on               # shift windows after closing one
 set -g base-index 1                      # 0 is pretty far away from 1 
 setw -g pane-base-index 1                # same for the panes
 set-window-option -g mode-keys vi        # VI Mode
+set-option -g focus-events on

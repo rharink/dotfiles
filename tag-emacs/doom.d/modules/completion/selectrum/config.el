@@ -3,8 +3,15 @@
 (selectrum-mode +1)
 
 ;; to make sorting and filtering more intelligent
+(selectrum-prescient-mode +1)
+
 ;; to save your command history on disk, so the sorting gets more
 ;; intelligent over time
-(after! prescient
-    (prescient-persist-mode +1)
-    (selectrum-prescient-mode +1))
+(prescient-persist-mode +1)
+
+;; to make sorting and filtering more intelligent
+;; to save your command history on disk, so the sorting gets more
+;; intelligent over time
+;; (after! prescient
+;;     (prescient-persist-mode +1)
+;;     (selectrum-prescient-mode +1))
