@@ -11,7 +11,10 @@ alias open = ^open
 alias vim = nvim
 
 # Starship
-use ~/.cache/starship/init.nu
+use starship.nu
+
+# Pueue
+use job.nu
 
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
