@@ -64,6 +64,7 @@ $env.ENV_CONVERSIONS = {
 
 # Directories to search for scripts when calling source or use
 $env.NU_LIB_DIRS = [
+    "~/Library/ApplicationSupport/nushell/scrips/",
     # FIXME: This default is not implemented in rust code as of 2023-09-06.
     ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
 ]
