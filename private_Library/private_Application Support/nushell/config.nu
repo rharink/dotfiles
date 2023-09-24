@@ -3,8 +3,15 @@
 # version = "0.85.0"
 
 # Aliases
+# macOS: Keeping /usr/bin/open as open
 def nuopen [arg, --raw (-r)] { if $raw { open -r $arg } else { open $arg } }
 alias open = ^open
+
+# VIM
+alias vim = nvim
+
+# Starship
+use ~/.cache/starship/init.nu
 
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
