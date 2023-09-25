@@ -16,6 +16,21 @@ use starship.nu
 # Pueue
 use job.nu
 
+# Git Status
+alias gs = git status -sb
+
+# Git Diff
+alias gd = git diff
+
+# Git Push
+alias gp = git push
+
+# Git Commit 
+alias gc = git commit 
+
+# Git Commit All
+alias gca = git commit -asm
+
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
 # And here is the theme collection
