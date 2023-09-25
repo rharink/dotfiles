@@ -47,3 +47,15 @@ If you're happy with the changes, then you can run
 chezmoi apply
 ```
 
+### Update configuration
+
+Run `chezmoi edit` to open the chezmoi dir in `$EDITOR` (nvim)
+
+### Re-add/update config
+
+Run `chezmoi re-add <files>` to add newer version of configuration files edited
+outside of `chezmoi edit`
+
+### Add new config
+
+use `chezmoi add <files>` to add files to chezmoi
