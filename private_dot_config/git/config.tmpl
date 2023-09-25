@@ -1,7 +1,7 @@
 [user]
     name = "Robert den Harink"
-    email = {{ $email | quote }}
-    signingkey = {{ $signingkey | quote }}
+    email = {{ .email | quote }}
+    signingkey = {{ .signingkey | quote }}
 
 [core]
     editor = nvim
