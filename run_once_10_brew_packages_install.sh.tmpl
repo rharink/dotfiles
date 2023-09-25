@@ -12,6 +12,7 @@ formulae=(
     curl
     dust
     fd
+    font-jetbrains-mono-nerd-font
     git
     git-delta
     git-gui
@@ -53,8 +54,10 @@ casks=(
 
 brew update
 
-brew install "${formulae[@]}"
-brew install --cask "${casks[@]}"
+brew tap homebrew/cask-fonts
+
+brew install --force "${formulae[@]}"
+brew install --force --cask "${casks[@]}"
 
 brew cleanup
 {{ end }}
