@@ -16,6 +16,9 @@ use starship.nu
 # Pueue
 use job.nu
 
+# FNM (Fast Node Manager)
+use fnm.nu
+
 # Git Status
 alias gs = git status -sb
 

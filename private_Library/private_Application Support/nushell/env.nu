@@ -86,6 +86,7 @@ $env.MAILCHECK = "0"
 
 $env.PATH = ($env.PATH | split row (char esep) | prepend "/opt/homebrew/bin")
 $env.PATH = ($env.PATH | split row (char esep) | prepend "~/bin")
+$env.PATH = ($env.PATH | split row (char esep) | prepend "~/.fnm")
 $env.PATH = ($env.PATH | split row (char esep) | prepend "~/.cargo/bin")
 $env.PATH = ($env.PATH | split row (char esep) | prepend "~/.cabal/bin")
 $env.PATH = ($env.PATH | split row (char esep) | prepend "~/.ghcup/bin")
