@@ -1,13 +1,12 @@
 [user]
     name = "Robert den Harink"
-    email = "robert@robhar.com"
-    signingkey = "BA1F5693906E61BF"
+    email = {{ $email | quote }}
+    signingkey = {{ $signingkey | quote }}
 
 [core]
     editor = nvim
     autocrlf = input
     safecrlf = warn
-    #pager = less -Mi -+F
     pager = delta
     attributesfile = ~/config/git/.gitattributes
     excludesFile = ~/.config/git/gitignore
@@ -23,7 +22,6 @@
     ff = only
 
 [commit]
-    template = ~/.config/git/gitmessage
     gpgsign = true
 
 [gpg]
@@ -31,18 +29,6 @@
 
 [checkout]
   defaultRemote = origin
-
-[delta]
-    plus-color = "#012800"
-    minus-color = "#340001"
-    syntax-theme = Monokai Extended
-    features = decorations
-    whitespace-error-style = 22 reverse
-
-[delta "decorations"]
-    commit-decoration-style = bold yellow box ul
-    file-style = bold yellow ul
-    file-decoration-style = none
 
 [interactive]
     diffFilter = delta --color-only
@@ -148,10 +134,6 @@
 
 [feature]
     manyFiles = true
-
-[diff "ansible-vault"]
-    textconv = ansible-vault view
-    cachetextconv = false
 
 [github]
     user = "rharink"
