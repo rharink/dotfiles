@@ -272,12 +272,14 @@ $env.config = {
     use_ansi_coloring: true
     bracketed_paste: true # enable bracketed paste, currently useless on windows
     edit_mode: vi # emacs, vi
-    shell_integration: false # enables terminal shell integration. Off by default, as some terminals have issues with this.
+    shell_integration: true # enables terminal shell integration. Off by default, as some terminals have issues with this.
     render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
 
     hooks: {
         pre_prompt: [{ null }] # run before the prompt is shown
-        pre_execution: [{ null }] # run before the repl input is run
+        pre_execution: [{
+            print $"(ansi title)(pwd)> (history | last | get command)(ansi st)"
+        }]
         env_change: {
             PWD: [{|before, after| null }] # run if the PWD environment is different since the last repl input
         }
