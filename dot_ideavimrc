@@ -1,0 +1,183 @@
+" Set mapleader first, emulated plugins use it.
+let mapleader=' '
+
+" Set sane defaults
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmode
+set number
+set relativenumber
+set scrolloff=3
+set history=100000
+" set clipboard+=unnamed
+" Make sure ideaput is enabled for clipboard to enable native IJ insertion in Vim.
+set clipboard+=ideaput
+
+" Turn off these insanely annoying sounds....
+set visualbell
+set noerrorbells
+
+" Emulated plugins;
+set easymotion
+set surround
+set NERDTree
+
+" Use Idea to join lines smartly
+set ideajoin
+
+" Multiple cursors support
+set multiple-cursors
+
+" Sync IJ bookmarks and Vim marks
+set ideamarks
+
+" Clear the highlighted search result
+nnoremap <Leader><CR> :nohlsearch<CR>
+
+" Insert mode shortcut
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <Delete>
+
+" Quit insert mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+
+" Quit visual mode
+vnoremap v <Esc>
+
+" Move to the start of line
+nnoremap H ^
+
+" Move to the end of line
+nnoremap L $
+
+" Redo
+nnoremap U <C-r>
+
+" Yank to the end of line
+nnoremap Y y$
+
+" quit ==> close current window
+nnoremap <Leader>q <C-W>w
+
+" Window operation
+nnoremap <Leader>ww <C-W>w
+nnoremap <Leader>wd <C-W>c
+nnoremap <Leader>wj <C-W>j
+nnoremap <Leader>wk <C-W>k
+nnoremap <Leader>wh <C-W>h
+nnoremap <Leader>wl <C-W>l
+nnoremap <Leader>ws <C-W>s
+nnoremap <Leader>w- <C-W>s
+nnoremap <Leader>wv <C-W>v
+nnoremap <Leader>w\| <C-W>v
+
+" Tab operation
+nnoremap tn gt
+nnoremap tp gT
+
+" AceJump!
+
+" Press `f` to activate AceJump
+map f <Action>(AceAction)
+" Press `F` to activate Target Mode
+map F <Action>(AceTargetAction)
+" Press `g` to activate Line Mode
+map g <Action>(AceLineAction)
+
+" ==================================================
+" Show all the provided actions via `:actionlist`
+" ==================================================
+
+" Built in search looks better
+nnoremap / :action Find<CR>
+" but preserve ideavim search
+nnoremap <Leader>/ /
+
+" built-in navigation to navigated items works better
+nnoremap <c-o> :action Back<cr>
+nnoremap <c-i> :action Forward<cr>
+" but preserve ideavim defaults
+nnoremap g<c-o> <c-o>
+nnoremap g<c-i> <c-i>
+
+" Comment in visual mode
+vnoremap gc :action CommentByLineComment<CR>
+vnoremap gC :action CommentByBlockComment<CR>
+
+" Terminal
+noremap <c-t> :action ActivateTerminalToolWindow<CR>
+noremap <Leader-t> :action Terminal.OpenInTerminal<CR>
+
+" (X) Errors
+nmap <leader>x :action GotoNextError<CR>
+nmap <leader>X :action GotoPreviousError<CR>
+
+" (G) VCS operations
+nmap <leader>gg :action Vcs.QuickListPopupAction<CR>
+nmap <leader>gb :action Annotate<CR>
+nmap <leader>gl :action Vcs.Show.Log<CR>
+nmap <leader>gc :action Compare.LastVersion<CR>
+
+" ([]) Unimpaired mappings - from https://github.com/saaguero/ideavimrc/blob/master/.ideavimrc
+nnoremap [<space> O<esc>j
+nnoremap ]<space> o<esc>k
+nnoremap [q :action PreviousOccurence<CR>
+nnoremap ]q :action NextOccurence<CR>
+nnoremap [m :action MethodUp<CR>
+nnoremap ]m :action MethodDown<CR>
+nnoremap [c :action VcsShowPrevChangeMarker<CR>
+nnoremap ]c :action VcsShowNextChangeMarker<CR>
+
+" (B) Debugginng
+nnoremap <Leader>bb :action ToggleLineBreakpoint<CR>
+nnoremap <Leader>bv :action ViewBreakpoints<CR>
+nnoremap <Leader>bi :action StepInto<CR>
+
+" (/) Runnning
+nnoremap <Leader>/c :action RunMenu<CR>
+nnoremap <Leader>/r :action Rerun<CR>
+
+" (G) GoTo
+nnoremap ga :action GotoAction<CR>
+nnoremap gc :action GotoClass<CR>
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gf :action GotoFile<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gs :action GotoSymbol<CR>
+nnoremap gt :action GotoTypeDeclaration<CR>
+nnoremap gT :action GotoTest<CR>
+
+" (R) Refactor
+nnoremap <Leader>rr :action RefactoringMenu<CR>
+nnoremap <Leader>rn :action RenameElement<CR>
+nnoremap <Leader>rf :action RenameFile<CR>
+nnoremap <Leader>roi :action OptimizeImports<CR>
+
+" (S) Search
+nnoremap <Leader><Tab> :action Switcher<CR>
+nnoremap <Leader>se :action SearchEverywhere<CR>
+nnoremap <Leader>su :action ShowUsages<CR>
+nnoremap <Leader>ff :action FindInPath<CR>
+
+" (O) Activates (open)
+nnoremap <Leader>ot Vy<CR>:action ActivateTerminalToolWindow<CR>
+vnoremap <Leader>ot y<CR>:action ActivateTerminalToolWindow<CR>
+nnoremap <Leader>on :NERDTreeToggle<CR>
+
+" Misc
+nnoremap <Leader>fu :action FindUsages<CR>
+nnoremap <Leader>pp :action ShowPopupMenu<CR>
+nnoremap <Leader>cv :action ChangeView<CR>
+nnoremap <Leader>fp :action ShowFilePath<CR>
+nnoremap <Leader>ic :action InspectCode<CR>
+nnoremap <Leader>zz :action ToggleDistractionFreeMode<CR>
+nmap gqq :action com.andrewbrookins.idea.wrap.WrapAction<CR>
+vmap gq :action com.andrewbrookins.idea.wrap.WrapAction<CR>
