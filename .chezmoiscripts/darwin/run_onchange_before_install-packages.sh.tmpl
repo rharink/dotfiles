@@ -1,0 +1,78 @@
+#/bin/bash
+
+set -eufo pipefail
+
+{{ $brews := list
+   "age"
+   "awscli"
+   "bazelisk"
+   "buf"
+   "btop"
+   "bumpversion"
+   "curl"
+   "cmake"
+   "docker"
+   "dust"
+   "fd"
+   "fnm"
+   "font-jetbrains-mono-nerd-font"
+   "git"
+   "git-delta"
+   "git-gui"
+   "git-lfs"
+   "gpg-suite-no-mail"
+   "gpg2"
+   "hledger"
+   "ibazel"
+   "just"
+   "jq"
+   "jetbrains-toolbox"
+   "koekeishiya/formulae/skhd"
+   "koekeishiya/formulae/yabai"
+   "less"
+   "nushell"
+   "nvm"
+   "neovim"
+   "pandoc"
+   "pueue"
+   "pulumi"
+   "protobuf"
+   "ranger"
+   "shellcheck"
+   "starship"
+   "tmux"
+   "tokei"
+   "tree-sitter"
+   "wget"
+   "zoxide" -}}
+
+{{ $casks := list
+   "1password"
+   "1password-cli"
+   "amethyst"
+   "arc"
+   "blender"
+   "discord"
+   "google-drive"
+   "iterm2"
+   "kap"
+   "karabiner-elements"
+   "little-snitch"
+   "micro-snitch"
+   "orbstack"
+   "reminders-menubar"
+   "readdle-spark"
+   "spotify"
+   "tailscale"
+   "timing"
+   "slack"
+   "whatsapp" -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
