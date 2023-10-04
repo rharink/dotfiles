@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+if ! [ -x "$(command -v rustup)" ]; then
+    echo "Rust is not installed, installing..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+else
+    echo "Rust is installed, skipping..."
+fi
