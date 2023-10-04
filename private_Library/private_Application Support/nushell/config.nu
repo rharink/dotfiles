@@ -40,6 +40,9 @@ alias tm = tmux -2 -f ~/.config/tmux/tmux.conf new -A -s main
 # LL
 alias ll = ls
 
+# Completions
+use completions.nu *
+
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
 # And here is the theme collection
