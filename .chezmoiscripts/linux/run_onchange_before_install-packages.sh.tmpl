@@ -1,0 +1,39 @@
+{{ if eq .osid "linux-ubuntu" -}}
+
+{{ $packages := list
+     "bat"
+     "btop"
+     "build-essential"
+     "curl"
+     "fd-find"
+     "fzf"
+     "git"
+     "git-lfs"
+     "jq"
+     "openssh-server"
+     "ripgrep"
+     "shellcheck"
+     "nushell" -}}
+
+{{ $snaps := list -}}
+
+{{ $classicSnaps := list -}}
+
+
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $sudo }}apt-get update
+{{ $sudo }}apt-get install -y {{ $packages | join " " }}
+
+{{ if lookPath "snap" }}
+{{   range $snaps }}
+( snap info {{ . }} | grep -q ^installed: ) || {{ $sudo }}snap install {{ . }}
+{{   end }}
+{{   range $classicSnaps }}
+( snap info {{ . }} | grep -q ^installed: ) || {{ $sudo }}snap install --classic {{ . }}
+{{   end }}
+{{ end }}
+
+{{ end -}}
