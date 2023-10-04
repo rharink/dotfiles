@@ -2,6 +2,12 @@
 
 set -eufo pipefail
 
+{{ $taps := list
+   "felixkratz/formulae"
+   "homebrew/bundle"
+   "homebrew/cask-fonts"
+   "koekeishiya/formulae" -}}
+
 {{ $brews := list
    "age"
    "awscli"
@@ -15,18 +21,15 @@ set -eufo pipefail
    "dust"
    "fd"
    "fnm"
-   "font-jetbrains-mono-nerd-font"
    "git"
    "git-delta"
    "git-gui"
    "git-lfs"
-   "gpg-suite-no-mail"
    "gpg2"
    "hledger"
    "ibazel"
    "just"
    "jq"
-   "jetbrains-toolbox"
    "koekeishiya/formulae/skhd"
    "koekeishiya/formulae/yabai"
    "less"
@@ -53,7 +56,10 @@ set -eufo pipefail
    "arc"
    "blender"
    "discord"
+   "jetbrains-toolbox"
+   "font-jetbrains-mono-nerd-font"
    "google-drive"
+   "gpg-suite-no-mail"
    "iterm2"
    "kap"
    "karabiner-elements"
@@ -69,6 +75,9 @@ set -eufo pipefail
    "whatsapp" -}}
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($taps | sortAlpha | uniq) -}}
+tap "{{ . }}"
+{{ end -}}
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
 {{ end -}}
