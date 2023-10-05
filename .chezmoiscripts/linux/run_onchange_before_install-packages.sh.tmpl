@@ -17,7 +17,9 @@
 
 {{ $snaps := list -}}
 
-{{ $classicSnaps := list -}}
+{{ $classicSnaps := list
+    "nvim"
+-}}
 
 {{ $sudo := "sudo " -}}
 {{ if eq .chezmoi.username "root" -}}
