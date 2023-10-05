@@ -24,8 +24,10 @@
 [commit]
     gpgsign = true
 
+{{ if .chezmoi.os "darwin" }}
 [gpg]
     program = /usr/local/MacGPG2/bin/gpg
+{{ end }}
 
 [checkout]
   defaultRemote = origin
