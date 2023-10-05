@@ -23,6 +23,23 @@
 {{-   $hostname = $computerName -}}
 {{- end -}}
 
+{{- if not $ephemeral -}}
+{{-   if eq $hostname "Robert’s MacBook Pro" -}}
+{{-     $personal = true -}}
+{{-   else if eq $hostname "neutron" -}}
+{{-     $personal = true -}}
+{{-   else if stdinIsATTY -}}
+{{-     $headless = promptBoolOnce . "headless" "headless" -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "ephemeral" -}}
+{{-     if not $ephemeral -}}
+{{-       $docker = promptBoolOnce . "docker" "docker" -}}
+{{-     end -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-     $headless = true -}}
+{{-   end -}}
+{{- end -}}
+
 [data]
     docker = {{ $docker }}
     ephemeral = {{ $ephemeral }}
