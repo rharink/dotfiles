@@ -24,7 +24,7 @@
 [commit]
     gpgsign = true
 
-{{ if .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" }}
 [gpg]
     program = /usr/local/MacGPG2/bin/gpg
 {{ end }}
