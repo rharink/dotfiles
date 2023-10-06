@@ -1,5 +1,5 @@
 alias vim="nvim"
-alias tm="tmux -2 -f ~/.config/tmux/tmux.conf new -A s main"
+alias tm="tmux -2 -f ~/.config/tmux/tmux.conf new -A -s main"
 
 abbr --add gco git checkout 
 abbr --add gs git status
