@@ -32,6 +32,13 @@
     program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 {{- end }}
 
+{{ if eq .chezmoi.os "linux" }}
+{{- if .personal -}}
+[gpg "ssh"]
+  program = "/opt/1Password/op-ssh-sign"
+{{- end }}
+{{- end }}
+
 [checkout]
   defaultRemote = origin
 
