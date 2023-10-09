@@ -1,4 +1,6 @@
+{{- if eq .chezmoi.os "linux" -}}
 set-option -g default-shell /usr/bin/fish
+{{ end }}
 
 # Show correct titles
 set-option -g set-titles on
